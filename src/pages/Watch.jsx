@@ -81,19 +81,6 @@ const Watch = () => {
       {/* Header with search */}
       <Header />
 
-      {/* Movie Title Section */}
-      {movie && (
-        <div className="border-b border-slate-700 bg-slate-800/30">
-          <div className="container mx-auto px-4 py-4">
-            <h1 className="text-2xl font-bold text-white">{movie.title}</h1>
-            {movie.release_date && (
-              <p className="mt-1 text-gray-400">
-                {new Date(movie.release_date).getFullYear()}
-              </p>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Video Player Container */}
       <main className="container mx-auto px-4 py-8">

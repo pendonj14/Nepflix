@@ -73,7 +73,7 @@ const HeroSlideshow = ({ movies }) => {
                 loading="lazy"
               />
             ) : (
-              <h1 className="mb-4 text-5xl font-bold text-white drop-shadow-lg md:text-6xl lg:text-7xl font-bebas-neue">
+              <h1 className="mb-4 text-5xl font-bold text-white drop-shadow-lg md:text-6xl lg:text-7xl font-bebas-neue text-transform:uppercase">
                 {currentMovie.title}
               </h1>
             )}
@@ -105,7 +105,7 @@ const HeroSlideshow = ({ movies }) => {
               <div className="flex-shrink-0 mr-10">
                 <button
                   onClick={handlePlayClick}
-                  className="flex items-center gap-2 rounded-full bg-white px-5 py-5 text-lg font-semibold text-black transition-transform hover:scale-105 hover:bg-gray-100"
+                  className="flex items-center gap-2 rounded-full bg-[#ffc30e] px-5 py-5 text-lg font-semibold text-black transition-transform hover:scale-105 hover:bg-transparent hover:text-[#ffc30e] hover:ring-2 hover:ring-[#ffc30e]"
                 >
                   <svg className="h-11 w-11" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
@@ -124,7 +124,7 @@ const HeroSlideshow = ({ movies }) => {
                   onClick={() => goToSlide(index)}
                   className={`h-2 rounded-full transition-all ${
                     index === currentIndex
-                      ? 'w-8 bg-white'
+                      ? 'w-8 bg-[#ffc30e]'
                       : 'w-2 bg-white/50 hover:bg-white/75'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}

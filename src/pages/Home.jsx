@@ -35,7 +35,7 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-transparent">
+      <div className="flex min-h-screen items-center justify-center bg-transparent overflow-y-hidden">
         <div className="text-center">
           <div className="mb-4 inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
           <p className="text-xl text-gray-300">Loading movies...</p>
@@ -66,7 +66,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-black">
       {/* Header with Search */}
-
+      <Header />
 
       {/* Hero Slideshow - Top 10 Trending */}
       <HeroSlideshow movies={movies} />

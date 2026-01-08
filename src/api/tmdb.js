@@ -10,39 +10,39 @@ const TMDB_BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
 
 /**
  * Fetches trending movies from TMDB
- * @returns {Promise<Array>} Array of movie objects
+ * @param {number} pages - number of pages to fetch (20 movies per page)
+ * @returns {Promise<Array>}
  */
-export const fetchTrendingMovies = async () => {
+export const fetchTrendingMovies = async (pages = 1) => {
   try {
-    // Try to get API key from environment variable
     let apiKey = import.meta.env.VITE_TMDB_API_KEY;
-    
-    // Debug: Log environment variable status
-    console.log('API Key from env:', apiKey);
-    console.log('All env vars:', import.meta.env);
-    
-    // Fallback: if env var is not available, use the provided API key
-    // This ensures the app works even if .env isn't being read properly
-    if (!apiKey || apiKey.trim() === '' || apiKey === undefined) {
-      console.warn('VITE_TMDB_API_KEY not found in environment, using fallback key');
+
+    if (!apiKey || apiKey.trim() === '') {
       apiKey = '05a3f3071ad3fa222ab689fb62ed0df1';
     }
-    
-    if (!apiKey || apiKey.trim() === '') {
-      console.error('TMDB API key is missing. Make sure VITE_TMDB_API_KEY is set in .env file');
-      throw new Error('TMDB API key is not configured. Please check your .env file and restart the dev server.');
+
+    if (!apiKey) {
+      throw new Error('TMDB API key missing');
     }
 
-    const response = await fetch(
-      `${TMDB_BASE_URL}/trending/movie/day?api_key=${apiKey}`
-    );
+    const requests = [];
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch movies: ${response.statusText}`);
+    for (let page = 1; page <= pages; page++) {
+      requests.push(
+        fetch(
+          `${TMDB_BASE_URL}/trending/movie/day?api_key=${apiKey}&page=${page}`
+        ).then((res) => {
+          if (!res.ok) {
+            throw new Error(`Failed page ${page}`);
+          }
+          return res.json();
+        })
+      );
     }
 
-    const data = await response.json();
-    return data.results || [];
+    const responses = await Promise.all(requests);
+
+    return responses.flatMap((data) => data.results || []);
   } catch (error) {
     console.error('Error fetching trending movies:', error);
     throw error;

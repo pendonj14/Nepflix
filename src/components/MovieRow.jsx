@@ -1,6 +1,6 @@
 import MovieCard from '../components/MovieCard';
 
-const MovieRow = ({ title, movies }) => {
+const MovieRow = ({ title, movies, contentType }) => {
   if (!movies || movies.length === 0) return null;
 
   return (
@@ -13,7 +13,7 @@ const MovieRow = ({ title, movies }) => {
         {/* Grid layout */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5">
           {movies.slice(0, 20).map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <MovieCard key={movie.id} movie={movie} contentType={contentType} />
           ))}
         </div>
       </div>

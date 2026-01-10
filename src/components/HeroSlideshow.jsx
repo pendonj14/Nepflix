@@ -1,49 +1,53 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getBackdropUrl, getLogoUrl, fetchMovieLogo } from '../api/tmdb';
+import { getBackdropUrl, getLogoUrl, fetchLogo } from '../api/tmdb';
 
 /**
  * HeroSlideshow Component
- * Displays a slideshow of the top 10 trending movies with auto-play
+ * Displays a slideshow of the top 10 trending movies or TV shows with auto-play
  */
-const HeroSlideshow = ({ movies }) => {
+const HeroSlideshow = ({ content = [], contentType = 'movie' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [logo, setLogo] = useState(null);
   const navigate = useNavigate();
-  const [movieLogo, setMovieLogo] = useState(null);
 
-  // Get top 10 movies
-  const topMovies = movies.slice(0, 10);
-  
-  // Auto-advance slideshow every 5 seconds
-  useEffect(() => {
-    if (topMovies.length === 0) return;
+  // Get top 10 content
+  const topContent = content.slice(0, 10);
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % topMovies.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [topMovies.length]);
-
-  if (topMovies.length === 0) {
+  if (topContent.length === 0) {
     return null;
   }
 
-  const currentMovie = topMovies[currentIndex];
+  const currentItem = topContent[currentIndex];
+  const title = currentItem?.title || currentItem?.name || 'Unknown';
+  const releaseDate = currentItem?.release_date || currentItem?.first_air_date;
+
+  // Auto-advance slideshow every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % topContent.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [topContent.length]);
+
+  // Fetch logo for current item
+  useEffect(() => {
+    if (!currentItem?.id) return;
+
+    setLogo(null);
+    fetchLogo(currentItem.id, contentType).then(setLogo).catch(() => {
+      setLogo(null);
+    });
+  }, [currentItem?.id, contentType]);
 
   const handlePlayClick = () => {
-    navigate(`/watch/${currentMovie.id}`);
+    navigate(`/watch/${contentType}/${currentItem.id}`);
   };
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
-  useEffect(() => {
-    if (!currentMovie?.id) return;
-  
-    setMovieLogo(null); // reset between slides
-    fetchMovieLogo(currentMovie.id).then(setMovieLogo);
-  }, [currentMovie]);
   
   return (
     <div className="relative h-[70vh] min-h-screen w-full overflow-hidden">
@@ -51,7 +55,7 @@ const HeroSlideshow = ({ movies }) => {
       <div
         className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
         style={{
-          backgroundImage: `url(${getBackdropUrl(currentMovie.backdrop_path)})`,
+          backgroundImage: `url(${getBackdropUrl(currentItem?.backdrop_path)})`,
           opacity: 0.8,
         }}
       >
@@ -64,41 +68,40 @@ const HeroSlideshow = ({ movies }) => {
       <div className="relative z-10 flex h-full items-end">
         <div className="container mx-auto px-4 pb-16">
           <div className="pl-20 px-20">
-            {/* Movie Title / Logo */}
-            {movieLogo ? (
+            {/* Title / Logo */}
+            {logo ? (
               <img
-                src={getLogoUrl(movieLogo)}
-                alt={currentMovie.title}
+                src={getLogoUrl(logo)}
+                alt={title}
                 className="mb-4 max-h-24 w-auto drop-shadow-lg"
                 loading="lazy"
               />
             ) : (
-              <h1 className="mb-4 text-5xl font-bold text-white drop-shadow-lg md:text-6xl lg:text-7xl font-bebas-neue text-transform:uppercase">
-                {currentMovie.title}
+              <h1 className="mb-4 text-5xl font-bold text-white drop-shadow-lg md:text-6xl lg:text-7xl font-bebas-neue">
+                {title}
               </h1>
             )}
 
-            
-            {/* Movie Info */}
+            {/* Content Info */}
             <div className="mb-6 flex flex-wrap items-center gap-4 text-white">
-              {currentMovie.release_date && (
+              {releaseDate && (
                 <span className="text-lg">
-                  {new Date(currentMovie.release_date).getFullYear()}
+                  {new Date(releaseDate).getFullYear()}
                 </span>
               )}
-              {currentMovie.vote_average && (
+              {currentItem?.vote_average && (
                 <span className="flex items-center gap-1 text-lg">
                   <span className="text-yellow-400">⭐</span>
-                  {currentMovie.vote_average.toFixed(1)}/10
+                  {currentItem.vote_average.toFixed(1)}/10
                 </span>
               )}
             </div>
 
             {/* Overview */}
             <div className="mt-4 flex items-start justify-between">
-              {currentMovie.overview && (
-                <p className="flex-1 line-clamp-3 text-lg text-gray-200 drop-shadow-md max-w-2xl font-helvetica">
-                  {currentMovie.overview}
+              {currentItem?.overview && (
+                <p className="flex-1 line-clamp-3 text-lg text-gray-200 drop-shadow-md max-w-2xl">
+                  {currentItem.overview}
                 </p>
               )}
 
@@ -110,15 +113,13 @@ const HeroSlideshow = ({ movies }) => {
                   <svg className="h-11 w-11" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
-
                 </button>
               </div>
             </div>
 
-
             {/* Carousel Indicators */}
             <div className="mt-10 flex gap-2 justify-center">
-              {topMovies.map((_, index) => (
+              {topContent.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}

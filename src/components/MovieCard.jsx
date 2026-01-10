@@ -2,13 +2,21 @@ import { Link } from 'react-router-dom';
 import { getPosterUrl } from '../api/tmdb';
 import { useScrollFade } from '../hooks/useScrollFade';
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, contentType }) => {
   const [ref, progress] = useScrollFade();
+  
+  // Handle movies, TV shows, and anime
+  const title = movie.title || movie.name;
+  // Use contentType if provided, otherwise determine from data
+  let type = contentType;
+  if (!type) {
+    type = movie.title && !movie.name ? 'movie' : 'tv';
+  }
 
   return (
     <Link
       ref={ref}
-      to={`/watch/${movie.id}`}
+      to={`/watch/${type}/${movie.id}`}
       className="group/card relative min-w-[200px] flex-shrink-0
                  rounded-lg bg-slate-800 overflow-hidden
                  hover:ring-2 hover:ring-[#ffc30e]
@@ -24,7 +32,7 @@ const MovieCard = ({ movie }) => {
       <div className="relative w-full aspect-[2/3] overflow-hidden">
         <img
           src={getPosterUrl(movie.poster_path)}
-          alt={movie.title}
+          alt={title}
           loading="lazy"
           className="
             absolute inset-0

@@ -20,8 +20,8 @@ function App() {
           {/* Home page - displays trending movies */}
           <Route path="/" element={<Home />} />
           
-          {/* Watch page - displays movie player */}
-          <Route path="/watch/:id" element={<Watch />} />
+          {/* Watch page - displays movie/tv player */}
+          <Route path="/watch/:type/:id" element={<Watch />} />
         </Routes>
       </div>
     </Router>

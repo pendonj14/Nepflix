@@ -164,7 +164,7 @@ const Header = ({ contentType = 'movie', onContentTypeChange }) => {
             {/* Expandable Input Container */}
             <div 
               className={`flex items-center bg-black/60 border border-white/30 backdrop-blur-md rounded-full overflow-hidden transition-all duration-500 ease-in-out ${
-                isSearchExpanded ? 'w-64 opacity-100' : 'w-0 opacity-0 border-none'
+                isSearchExpanded ? 'w-50 opacity-100' : 'w-0 opacity-0 border-none'
               }`}
             >
               <div className="pl-3 text-gray-400">

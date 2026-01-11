@@ -294,6 +294,6 @@ export const fetchSeasonDetails = async (tvId, seasonNumber) => {
 };
 
 export const getStillUrl = (path, size = 'w500') => {
-  if (!path) return '/episode-placeholder.jpg'; // optional fallback
+  if (!path) return '/episode-placeholder.png'; // optional fallback
   return `https://image.tmdb.org/t/p/${size}${path}`;
 };

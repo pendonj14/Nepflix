@@ -115,9 +115,9 @@ const Header = ({ contentType = 'movie', onContentTypeChange }) => {
         <div className="flex-shrink-0 z-20">
           <button
             onClick={() => navigate('/')}
-            className="text-3xl font-bold text-[#E50914] hover:scale-105 transition-transform font-bebas tracking-wide shadow-black drop-shadow-md"
+            className="text-3xl font-bold text-[#ffc30e] hover:scale-105 transition-transform font-bebas tracking-wide shadow-black drop-shadow-md"
           >
-            NEPFLIX
+            NEP<span className='text-white'>FLIX</span>
           </button>
         </div>
 
@@ -134,7 +134,7 @@ const Header = ({ contentType = 'movie', onContentTypeChange }) => {
           >
             Movies
           </button>
-          <button 
+          <button
             onClick={() => handleContentTypeChange('tv')}
             className={`font-medium text-sm transition-colors uppercase tracking-widest pb-1 ${
               localContentType === 'tv'

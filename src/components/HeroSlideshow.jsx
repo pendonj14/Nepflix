@@ -97,22 +97,48 @@ const HeroSlideshow = ({ content = [], contentType = 'movie' }) => {
               )}
             </div>
 
-            {/* Overview */}
-            <div className="mt-4 flex items-start justify-between">
+            {/* Overview and Play Button */}
+            <div className="mt-4 flex flex-col lg:flex-row lg:items-end lg:justify-between lg:gap-8">
               {currentItem?.overview && (
-                <p className="flex-1 line-clamp-3 text-lg text-gray-200 drop-shadow-md max-w-2xl">
+                <p className="flex-1 line-clamp-3 text-lg text-gray-200 drop-shadow-md max-w-2xl text-justify">
                   {currentItem.overview}
                 </p>
               )}
 
-              <div className="flex-shrink-0 mr-10">
+              {/* PLAY BUTTON */}
+              <div className="mt-6 flex justify-center lg:mt-0 lg:justify-end lg:flex-shrink-0">
                 <button
                   onClick={handlePlayClick}
-                  className="flex items-center gap-2 rounded-full bg-[#ffc30e] px-5 py-5 text-lg font-semibold text-black transition-transform hover:scale-105 hover:bg-transparent hover:text-[#ffc30e] hover:ring-2 hover:ring-[#ffc30e]"
+                  className="
+                    flex items-center gap-2
+                    rounded-full
+                    bg-[#ffc30e]
+                    text-black
+                    font-semibold
+                    transition-all
+                    hover:scale-105
+
+                    px-7 py-3 text-base
+                    shadow-lg
+
+                    lg:px-5 lg:py-5 lg:text-lg
+                    hover:bg-transparent hover:text-[#ffc30e]
+                    hover:ring-2 hover:ring-[#ffc30e]
+                  "
                 >
-                  <svg className="h-11 w-11" fill="currentColor" viewBox="0 0 24 24">
+                  {/* Play Icon */}
+                  <svg
+                    className="h-5 w-5 lg:h-11 lg:w-11"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M8 5v14l11-7z" />
                   </svg>
+
+                  {/* PLAY text (mobile & tablet only) */}
+                  <span className="lg:hidden uppercase tracking-wide">
+                    Play
+                  </span>
                 </button>
               </div>
             </div>

@@ -137,26 +137,26 @@ const Watch = () => {
         <div className="mx-auto max-w-7xl">
           {/* Videasy iframe player */}
           <div
-          className="
-            relative w-full bg-black shadow-2xl overflow-hidden
-            h-[100svh] sm:h-auto
-            sm:aspect-video
-            rounded-none sm:rounded-lg
-          "
-        >
-          <iframe
-            key={videasyUrl}
-            src={videasyUrl}
-            className="absolute inset-0 h-full w-full"
-            allowFullScreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            title={title}
-          />
-        </div>
+        className="
+          relative w-full bg-black shadow-2xl overflow-hidden
+          h-[100svh] sm:h-auto
+          sm:aspect-video
+          rounded-none sm:rounded-lg
+        "
+      >
+        <iframe
+          key={videasyUrl}
+          src={videasyUrl}
+          className="absolute inset-0 h-full w-full"
+          allowFullScreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          title={title}
+        />
+      </div>
 
           {/* TV Show Controls */}
           {(type === 'tv' || type === 'anime') && seasons.length > 0 && (
-            <div className="mt-6 rounded-lg bg-slate-800 p-6">
+            <div className="mt-6 rounded-lg bg-black  p-6">
               {/* Season Selector */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-white mb-3">
@@ -194,8 +194,9 @@ const Watch = () => {
                     xl:grid-cols-4
                     max-h-[32rem]
                     overflow-y-auto
-                    pr-2
                     no-scrollbar
+                    px-4
+                    pt-2
                   ">
                     {episodes.map((episode) => (
                       <div
@@ -203,7 +204,7 @@ const Watch = () => {
                         onClick={() => setSelectedEpisode(episode.episode_number)}
                         className={`
                           group cursor-pointer overflow-hidden rounded-lg
-                          bg-slate-700 transition-all duration-300
+                          bg-slate-900 transition-all duration-300
                           hover:scale-[1.02] hover:bg-slate-600
                           ${selectedEpisode === episode.episode_number
                             ? 'ring-2 ring-[#ffc30e]'
@@ -214,40 +215,22 @@ const Watch = () => {
                         {/* Episode Image */}
                         <div className="relative aspect-video overflow-hidden bg-black">
                           <img
-                            src={getStillUrl(episode.still_path)}
+                            src={getStillUrl(episode.still_path)} 
                             alt={episode.name}
                             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                             loading="lazy"
                           />
 
-                          {/* Episode number overlay */}
-                          <div className="absolute bottom-2 left-2 rounded bg-black/70 px-2 py-1 text-xs text-white">
-                            EP {episode.episode_number}
+                            <h4 className=" absolute bottom-2 line-clamp-1 font-semibold text-white px-2">
+                              {episode.name}
+                            </h4>
+                            {/* Episode number overlay */}
+                            <div className="absolute top-2 left-2 rounded bg-black/70 px-2 py-1 text-xs text-white">
+                              EP {episode.episode_number}
+                            </div>
                           </div>
                         </div>
 
-                        {/* Episode Info */}
-                        <div className="p-3">
-                          <h4 className="line-clamp-1 font-semibold text-white">
-                            {episode.name}
-                          </h4>
-
-                          {episode.overview && (
-                            <p className="mt-1 line-clamp-2 text-xs text-gray-300">
-                              {episode.overview}
-                            </p>
-                          )}
-
-                          <div className="mt-2 flex items-center justify-between text-xs text-gray-400">
-                            {episode.runtime && <span>{episode.runtime}m</span>}
-                            {episode.air_date && (
-                              <span>
-                                {new Date(episode.air_date).getFullYear()}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
                     ))}
                   </div>
                 </div>

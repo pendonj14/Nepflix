@@ -120,13 +120,24 @@ const Header = ({ contentType = 'movie', onContentTypeChange }) => {
     <header className="fixed top-0 w-full z-50 px-4 md:px-8 py-4 bg-gradient-to-b from-black/90 via-black/50 to-transparent transition-all duration-300">
       <div className="flex items-center justify-between relative">
         
-        {/* Left: Logo */}
-        <div className="flex-shrink-0 z-20">
+        {/* Left: Logo and Mobile Toggle */}
+        <div className="flex items-center gap-2 z-20">
           <button
             onClick={() => navigate('/')}
             className="text-3xl font-bold text-[#ffc30e] hover:scale-105 transition-transform font-bebas tracking-wide shadow-black drop-shadow-md"
           >
             NEP<span className='text-white'>FLIX</span>
+          </button>
+          
+          {/* Mobile Content Type Toggle (visible only on mobile) */}
+          <button
+            onClick={() => handleContentTypeChange(localContentType === 'movie' ? 'tv' : 'movie')}
+            className="md:hidden text-white hover:text-[#ffc30e] transition-colors pt-1"
+            title={`Switch to ${localContentType === 'movie' ? 'TV Shows' : 'Movies'}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-7 w-7">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+            </svg>
           </button>
         </div>
 

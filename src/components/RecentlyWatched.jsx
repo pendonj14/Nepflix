@@ -47,7 +47,7 @@ const RecentlyWatched = () => {
 
           <div
             ref={scrollContainerRef}
-            className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide py-5 px-2 scroll-smooth"
+            className="flex gap-4 overflow-hidden py-5 px-2 scroll-smooth"
           >
             {recentMovies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} contentType={movie.type} />

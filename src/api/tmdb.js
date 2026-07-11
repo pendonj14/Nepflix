@@ -10,16 +10,16 @@ const tmdbFetch = async (path) => {
   return res.json();
 };
 
-export const fetchTrendingMovies = async (pages = 1) => {
+export const fetchTrendingMovies = async (pages = 1, startPage = 1) => {
   const requests = Array.from({ length: pages }, (_, i) =>
-    tmdbFetch(`/trending/movie/day?page=${i + 1}`)
+    tmdbFetch(`/trending/movie/day?page=${startPage + i}`)
   );
   return (await Promise.all(requests)).flatMap((d) => d.results || []);
 };
 
-export const fetchTrendingShows = async (pages = 1) => {
+export const fetchTrendingShows = async (pages = 1, startPage = 1) => {
   const requests = Array.from({ length: pages }, (_, i) =>
-    tmdbFetch(`/trending/tv/day?page=${i + 1}`)
+    tmdbFetch(`/trending/tv/day?page=${startPage + i}`)
   );
   return (await Promise.all(requests)).flatMap((d) => d.results || []);
 };

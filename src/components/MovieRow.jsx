@@ -12,7 +12,7 @@ const MovieRow = ({ title, movies, contentType }) => {
 
         {/* Grid layout */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-5">
-          {movies.slice(0, 20).map((movie) => (
+          {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} contentType={contentType} />
           ))}
         </div>

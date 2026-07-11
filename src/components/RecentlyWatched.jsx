@@ -1,33 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 import MovieCard from '../components/MovieCard';
 
-const RecentlyWatched = ( ) => {
+const RecentlyWatched = () => {
   const [recentMovies, setRecentMovies] = useState([]);
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    const loadRecentMovies = () => {
-      try {
-        const stored = localStorage.getItem('recentlyWatched');
-        if (stored) {
-          setRecentMovies(JSON.parse(stored).reverse());
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    loadRecentMovies();
-    window.addEventListener('storage', loadRecentMovies);
-    return () => window.removeEventListener('storage', loadRecentMovies);
+    try {
+      const stored = localStorage.getItem('recentlyWatched');
+      if (stored) setRecentMovies(JSON.parse(stored).reverse());
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   const scroll = (direction) => {
-    if (!scrollContainerRef.current) return;
-
-    const scrollAmount = 300;
-    scrollContainerRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
+    scrollContainerRef.current?.scrollBy({
+      left: direction === 'left' ? -300 : 300,
       behavior: 'smooth',
     });
   };
@@ -42,7 +31,6 @@ const RecentlyWatched = ( ) => {
         </h2>
 
         <div className="relative group/slider px-8">
-          {/* Left button */}
           <button
             onClick={() => scroll('left')}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-20
@@ -57,7 +45,6 @@ const RecentlyWatched = ( ) => {
             </svg>
           </button>
 
-          {/* Slider */}
           <div
             ref={scrollContainerRef}
             className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide py-5 px-2 scroll-smooth"
@@ -67,7 +54,6 @@ const RecentlyWatched = ( ) => {
             ))}
           </div>
 
-          {/* Right button */}
           <button
             onClick={() => scroll('right')}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-20

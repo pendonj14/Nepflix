@@ -206,31 +206,24 @@ const Watch = () => {
                           group cursor-pointer overflow-hidden rounded-lg
                           bg-slate-900 transition-all duration-300
                           hover:scale-[1.02] hover:bg-slate-600
-                          ${selectedEpisode === episode.episode_number
-                            ? 'ring-2 ring-[#ffc30e]'
-                            : ''
-                          }
+                          ${selectedEpisode === episode.episode_number ? 'ring-2 ring-[#ffc30e]' : ''}
                         `}
                       >
-                        {/* Episode Image */}
                         <div className="relative aspect-video overflow-hidden bg-black">
                           <img
-                            src={getStillUrl(episode.still_path)} 
+                            src={getStillUrl(episode.still_path)}
                             alt={episode.name}
                             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                             loading="lazy"
                           />
-
-                            <h4 className=" absolute bottom-2 line-clamp-1 font-semibold text-white px-2">
-                              {episode.name}
-                            </h4>
-                            {/* Episode number overlay */}
-                            <div className="absolute top-2 left-2 rounded bg-black/70 px-2 py-1 text-xs text-white">
-                              EP {episode.episode_number}
-                            </div>
+                          <div className="absolute top-2 left-2 rounded bg-black/70 px-2 py-1 text-xs text-white">
+                            EP {episode.episode_number}
                           </div>
+                          <h4 className="absolute bottom-2 left-0 right-0 line-clamp-1 font-semibold text-white px-2">
+                            {episode.name}
+                          </h4>
                         </div>
-
+                      </div>
                     ))}
                   </div>
                 </div>

@@ -3,29 +3,15 @@ import Home from './pages/Home';
 import Watch from './pages/Watch';
 import './styles/index.css';
 
-/**
- * Main App Component
- * Sets up React Router and defines all routes
- */
 function App() {
   return (
     <Router>
-      {/* Animated background - fixed and non-interactive */}
-
-
-      {/* Content - Positioned above background */}
-      <div style={{ position: 'relative', zIndex: 1 }}>
-        <Routes>
-          {/* Home page - displays trending movies */}
-          <Route path="/" element={<Home />} />
-          
-          {/* Watch page - displays movie/tv player */}
-          <Route path="/watch/:type/:id" element={<Watch />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/watch/:type/:id" element={<Watch />} />
+      </Routes>
     </Router>
   );
 }
 
 export default App;
-

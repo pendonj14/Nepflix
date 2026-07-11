@@ -6,10 +6,6 @@ import HeroSlideshow from '../components/HeroSlideshow';
 import RecentlyWatched from '../components/RecentlyWatched';
 import MovieRow from '../components/MovieRow';
 
-/**
- * Home Page Component
- * Displays trending movies, TV shows, or anime with hero slideshow and content rows
- */
 const Home = () => {
   const location = useLocation();
   const [contentType, setContentType] = useState('movie');
@@ -17,7 +13,6 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Check if navigation state has contentType
   useEffect(() => {
     if (location.state?.contentType) {
       setContentType(location.state.contentType);
@@ -25,24 +20,16 @@ const Home = () => {
   }, [location.state?.contentType]);
 
   useEffect(() => {
-    // Fetch trending content when component mounts or content type changes
     const loadContent = async () => {
       try {
         setLoading(true);
         setError(null);
-        let trendingContent;
-        if (contentType === 'movie') {
-          trendingContent = await fetchTrendingMovies(2);
-        } else if (contentType === 'tv') {
-          trendingContent = await fetchTrendingShows(2);
-        }
+        const trendingContent = contentType === 'movie'
+          ? await fetchTrendingMovies(2)
+          : await fetchTrendingShows(2);
         setContent(trendingContent);
       } catch (err) {
-        let errorMsg = 'Failed to load content';
-        if (contentType === 'movie') errorMsg = 'Failed to load movies';
-        else if (contentType === 'tv') errorMsg = 'Failed to load TV shows';
-        
-        setError(err.message || errorMsg);
+        setError(err.message || `Failed to load ${contentType === 'movie' ? 'movies' : 'TV shows'}`);
         console.error('Error loading content:', err);
       } finally {
         setLoading(false);
@@ -57,7 +44,7 @@ const Home = () => {
       <div className="flex min-h-screen items-center justify-center bg-transparent overflow-y-hidden">
         <div className="text-center">
           <div className="mb-4 inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-          <p className="text-xl text-gray-300">Loading {contentType === 'movie' ? 'movies' : contentType === 'tv' ? 'TV shows' : 'anime'}...</p>
+          <p className="text-xl text-gray-300">Loading {contentType === 'movie' ? 'movies' : 'TV shows'}...</p>
         </div>
       </div>
     );
@@ -79,26 +66,15 @@ const Home = () => {
     );
   }
 
-  // Get content for recommendations (skip top 10 that are in hero)
-  const recommendedContent = content.slice(10);
-
   return (
     <div className="min-h-screen bg-black">
-      {/* Header with Search */}
       <Header contentType={contentType} onContentTypeChange={setContentType} />
-
-      {/* Hero Slideshow - Top 10 Trending */}
       <HeroSlideshow content={content} contentType={contentType} />
-
-      {/* Content Rows */}
       <main className="py-8">
-        {/* Recently Watched */}
         <RecentlyWatched />
-
-        {/* Recommended Content */}
-        <MovieRow 
-          title={contentType === 'movie' ? 'Recommended Movies' : contentType === 'tv' ? 'Recommended TV Shows' : 'Recommended Anime'} 
-          movies={recommendedContent}
+        <MovieRow
+          title={contentType === 'movie' ? 'Recommended Movies' : 'Recommended TV Shows'}
+          movies={content.slice(10)}
           contentType={contentType}
         />
       </main>
@@ -107,4 +83,3 @@ const Home = () => {
 };
 
 export default Home;
-

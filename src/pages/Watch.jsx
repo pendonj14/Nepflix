@@ -109,7 +109,7 @@ const Watch = () => {
       return `https://player.videasy.net/tv/${id}/${selectedSeason}/${selectedEpisode}?nextEpisode=true&autoplayNextEpisode=true&color=ffc30e`;
     } else {
       // For movies: movie/{id}
-      return `https://player.videasy.net/movie/${id}?color=ffc30e`;
+      return `https://vidsrc.sbs/embed/movie/${id}?color=ffc30e`;
     }
   };
 
@@ -133,8 +133,8 @@ const Watch = () => {
       <Header />
 
       {/* Video Player Container */}
-      <main className="container mx-auto px-4 py-8 ">
-        <div className="mx-auto max-w-7xl">
+      <main className="container mx-auto px-4 py-9 ">
+        <div className="mx-auto pt-8 max-w-6xl">
           {/* Videasy iframe player */}
           <div
         className="

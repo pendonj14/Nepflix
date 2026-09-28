@@ -106,10 +106,10 @@ const Watch = () => {
   const getVideasyUrl = () => {
     if (type === 'tv') {
       // For TV shows: tv/{show_id}/{season}/{episode}
-      return `https://vidsrc.sbs/embed/tv/${id}/${selectedSeason}/${selectedEpisode}?nextEpisode=true&autoplayNextEpisode=true&color=ffc30e`;
+      return `https://cinesrc.st/embed/tv/${id}?s=${selectedSeason}&e=${selectedEpisode}&color=%23ffc30e&quality=1080`;
     } else {
       // For movies: movie/{id}
-      return `https://vidsrc.sbs/embed/movie/${id}?color=ffc30e?sub=en?controls=0`;
+      return `https://cinesrc.st/embed/movie/${id}&color=%23ffc30e&controls=true`;
     }
   };
 

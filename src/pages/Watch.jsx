@@ -109,7 +109,7 @@ const Watch = () => {
       return `https://cinesrc.st/embed/tv/${id}?s=${selectedSeason}&e=${selectedEpisode}&color=%23ffc30e&quality=1080`;
     } else {
       // For movies: movie/{id}
-      return `https://cinesrc.st/embed/movie/${id}&color=%23ffc30e&controls=true`;
+      return `https://cinesrc.st/embed/movie/${id}?color=%23ffc30e&controls=true`;
     }
   };
 
